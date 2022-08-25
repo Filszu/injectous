@@ -1,6 +1,6 @@
-window.onload = function() {
-  alert("hello")
-  document.write="abc"
-};
+window.onload = he
 
-document.write="abc"
+function he(){
+
+document.write('hellsdssfo')
+}

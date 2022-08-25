@@ -1,11 +1,13 @@
 package com.example.yt_tools
 
+import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Base64
 import android.view.KeyEvent
 import android.webkit.ClientCertRequest
+import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
@@ -17,8 +19,8 @@ import java.io.InputStream
 
 class WebBrowser : AppCompatActivity() {
 
-//    var url = "https://ciac.me"
-    var url = "https://google.com"
+    var url = "https://ciac.me"
+//    var url = "https://google.com"
 
     private lateinit var binding: ActivityWebBrowserBinding
 
@@ -40,7 +42,7 @@ class WebBrowser : AppCompatActivity() {
         webView.settings.allowFileAccess=true
         webView.settings.allowContentAccess=true
         webView.settings.javaScriptCanOpenWindowsAutomatically=true
-//        webView.settings.domStorageEnabled=true
+        webView.settings.domStorageEnabled=true
 //        webView.settings.
 //        webView.settings.forceDark
 
@@ -96,8 +98,9 @@ class WebBrowser : AppCompatActivity() {
 //        webView.settings.pluginState = ON
 
 
-        webView.addJavascriptInterface(MainActivity.WebAppInterface(this), "Android")
+//        webView.addJavascriptInterface(MainActivity.WebAppInterface(this), "Android")
 
+        webView.addJavascriptInterface(WebAppInterface(this), "Android")
 
     }
 
@@ -114,31 +117,41 @@ class WebBrowser : AppCompatActivity() {
 
     fun injectJs(){
         try {
-            val inputStream: InputStream = assets.open("userScripts/hello.js")
-            val buffer = ByteArray(inputStream.available())
-            inputStream.read(buffer)
-            inputStream.close()
-            val encoded: String = Base64.encodeToString(buffer, Base64.NO_WRAP)
 
-            Toast.makeText(this,
-                "input $inputStream \n enocded: $encoded \n buffer $buffer \n input $inputStream", Toast.LENGTH_LONG).show()
+//            val script1 = readFile(this,"userScripts/hello.js")
+//            Toast.makeText(this,
+//                "---$script1---", Toast.LENGTH_LONG).show()
+//
+//            val script2="document.write('xxx')"
+//            val script3=readFile(this,"userScripts/main.js")
+////
+////            Toast.makeText(this,
+////                "---$script3---", Toast.LENGTH_LONG).show()
+//
+//            binding.webView1.loadUrl(
+//                """javascript:(function f() {
+//                    """+script3+"""
+//                 })()"""
+//            )
 
-
+            val scriptURL = "https://ciac.mse/scripts/FSa.js"
+//            val scriptURL = "https://ciac.me/scripts/inj/1.js"
+//
 //            binding.webView1.loadUrl(
 //                "javascript:(function() {" +
-//                        "var parent = document.getElementsByTagName('head').item(0);" +
-//                        "var script = document.createElement('script');" +
-//                        "script.type = 'text/javascript';" +
-//                        "script.innerHTML = window.atob('" + encoded + "');" +
-//                        "parent.appendChild(script)" +
-//                        "})()"
+//                        "var script = document.createElement('script');"
+//                        +"script.src='"+scriptURL+"';"
+//                        +"document.body.appendChild(script);"
+//                        +"})()"
 //            )
 
 
+
+//            +"script.src='"+"https://ciac.me/scripts/FSa.js"+"';"
             binding.webView1.loadUrl(
                 "javascript:(function() {" +
                         """
-                            |var script = document.createElement("script"); 
+                            |var script = document.createElement("script");
                             |script.src="https://ciac.me/scripts/FSa.js";
                             |document.head.appendChild(script);
                             |""".trimMargin() +

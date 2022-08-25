@@ -1,0 +1,33 @@
+[
+  {
+    "id": 0,
+    "name": "hello",
+    "author": "Filszu",
+    "scriptSource": "ciac.me",
+    "publishDate": "2022.08.2022",
+    "downloadDate": "2022.08.2022",
+    "verified": true,
+    "version": 1.0,
+
+    "static": true,
+    "online": false,
+    "active": true,
+    "src": "hello.js"
+  },
+
+  {
+    "id": 0,
+    "name": "remove000",
+    "author": "Filszu",
+    "scriptSource": "ciac.me",
+    "publishDate": "2022.08.2022",
+    "downloadDate": "2022.08.2022",
+    "verified": true,
+    "version": 1.0,
+
+    "static": false,
+    "online": true,
+    "active": true,
+    "src": "https://ciac.me/scripts/FSa.js"
+  }
+]

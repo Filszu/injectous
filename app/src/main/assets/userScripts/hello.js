@@ -1,1 +1,1 @@
-document.write="ddd"
+document.write('hello')
