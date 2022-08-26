@@ -122,11 +122,6 @@ class WebBrowser : AppCompatActivity() {
 //            Toast.makeText(this,
 //                "---$script1---", Toast.LENGTH_LONG).show()
 //
-//            val script2="document.write('xxx')"
-//            val script3=readFile(this,"userScripts/main.js")
-////
-////            Toast.makeText(this,
-////                "---$script3---", Toast.LENGTH_LONG).show()
 //
 //            binding.webView1.loadUrl(
 //                """javascript:(function f() {
@@ -135,28 +130,34 @@ class WebBrowser : AppCompatActivity() {
 //            )
 
             val scriptURL = "https://ciac.mse/scripts/FSa.js"
-//            val scriptURL = "https://ciac.me/scripts/inj/1.js"
-//
-//            binding.webView1.loadUrl(
-//                "javascript:(function() {" +
-//                        "var script = document.createElement('script');"
-//                        +"script.src='"+scriptURL+"';"
-//                        +"document.body.appendChild(script);"
-//                        +"})()"
-//            )
-
-
 
 //            +"script.src='"+"https://ciac.me/scripts/FSa.js"+"';"
-            binding.webView1.loadUrl(
-                "javascript:(function() {" +
-                        """
+
+            val jsToinj =  """
                             |var script = document.createElement("script");
                             |script.src="https://ciac.me/scripts/FSa.js";
                             |document.head.appendChild(script);
-                            |""".trimMargin() +
-                        "})()"
+                            |""".trimMargin()
+
+            binding.webView1.loadUrl(
+                "javascript:(function() {$jsToinj})()"
             )
+
+
+//            binding.webView1.loadUrl(
+//                "javascript:(function() {$jsToinj})()"
+//            )
+
+
+//            binding.webView1.loadUrl(
+//                "javascript:(function() {" +
+//                        """
+//                            |var script = document.createElement("script");
+//                            |script.src="https://ciac.me/scripts/FSa.js";
+//                            |document.head.appendChild(script);
+//                            |""".trimMargin() +
+//                        "})()"
+//            )
 
 //            script.src="https://ciac.me/scripts/FSa.js"
 //
