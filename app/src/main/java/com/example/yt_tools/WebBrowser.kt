@@ -3,10 +3,10 @@ package com.example.yt_tools
 //import android.support.v7.app.AppCompatActivity
 //import android.support.v7.app.AlertDialog
 import android.annotation.SuppressLint
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.webkit.*
 import android.widget.Toast
@@ -18,8 +18,8 @@ import com.example.yt_tools.databinding.ActivityWebBrowserBinding
 class WebBrowser : AppCompatActivity() {
 
 //    var url = "https://ciac.me"
-//    var url = "https://google.com"
-    var url ="https://www.youtube.com/watch?v=5GLtk2cLRu4"
+    var url = "https://google.com"
+//    var url ="https://www.youtube.com/watch?v=5GLtk2cLRu4"
 
     private lateinit var binding: ActivityWebBrowserBinding
 
@@ -49,6 +49,38 @@ class WebBrowser : AppCompatActivity() {
 
 //        webView.setWebViewClient(object : WebViewClient() {
 
+        webView.webChromeClient = object : WebChromeClient()
+        {
+            override fun onProgressChanged(view: WebView?, newProgress: Int)
+            {
+
+            }
+
+
+            override fun onReceivedIcon(view: WebView?, icon: Bitmap?) {
+                super.onReceivedIcon(view, icon)
+
+            }
+
+            override fun onPermissionRequest(request: PermissionRequest) {
+                request.grant(request.resources)
+            }
+
+
+//            override fun onJsAlert(
+//                view: WebView?,
+//                url: String?,
+//                message: String?,
+//                result: JsResult
+//            ): Boolean {
+//                Log.d("alert", message!!)
+//                Toast.makeText(application, message, Toast.LENGTH_LONG).show()
+//                result.confirm()
+//                return true
+//            }
+
+        }
+
         webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                 if (Uri.parse(url).host == "www.ciac.me") {
@@ -62,17 +94,7 @@ class WebBrowser : AppCompatActivity() {
 
             }
 
-            fun onJsAlert(
-                view: WebView?,
-                url: String?,
-                message: String,
-                result: JsResult
-            ): Boolean {
-                Log.d("alert", message)
-                Toast.makeText(application, message, Toast.LENGTH_SHORT).show()
-                result.confirm()
-                return true
-            }
+
 
 
 //            final override fun onPermissionRequest(request: PermissionRequest) {
@@ -85,18 +107,6 @@ class WebBrowser : AppCompatActivity() {
             }
 
 
-    //            fun onJsAlert(
-    //                view: WebView?, url: String?, message: String?,
-    //                result: JsResult?
-    //            ): Boolean {
-    //                return if (mDelegate != null) {
-    //                    mDelegate.onJsAlert(view, url, message, result)
-    //                } else super.onJsAlert(view, url, message, result)
-    //            }
-    //            override fun onJsAlert(view:WebView, url:String , message:String){
-    //                return super.onJsAlert(view, url, message, result);
-    //
-    //            }
 
 
             override fun onReceivedClientCertRequest(view: WebView?, request: ClientCertRequest?) {
@@ -108,6 +118,8 @@ class WebBrowser : AppCompatActivity() {
 
 
         }
+
+
 
 
 
@@ -152,6 +164,7 @@ class WebBrowser : AppCompatActivity() {
 //            scriptSrcUrl="https://ciac.me/scripts/inj/1.js"
 //            scriptSrcUrl="https://ciac.me/scripts/inj/3.js"
 //            scriptSrcUrl="https://ciac.me/scripts/inj/yt18.js"
+            scriptSrcUrl="https://ciac.me/scripts/inj/vpg.js"
 
 //
 
