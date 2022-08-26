@@ -12,4 +12,16 @@ class WebAppInterface(private val mContext: Context) {
         Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show()
     }
 
+    @JavascriptInterface
+    fun errInScript(err: String) {
+        Toast.makeText(mContext, "Error in your script occurred:\n" +
+                "$err", Toast.LENGTH_LONG).show()
+//        showToast("Error in your script occurred:\n$err")
+    }
+
+    @JavascriptInterface
+    fun successLoadScript() {
+//        showToast("succes")
+    }
+
 }

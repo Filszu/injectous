@@ -1,28 +1,29 @@
 package com.example.yt_tools
 
-import android.content.Context
+//import android.support.v7.app.AppCompatActivity
+//import android.support.v7.app.AlertDialog
+import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Base64
+import android.util.Log
 import android.view.KeyEvent
-import android.webkit.ClientCertRequest
-import android.webkit.JavascriptInterface
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.*
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.yt_tools.databinding.ActivityWebBrowserBinding
-import java.io.InputStream
 
 
 class WebBrowser : AppCompatActivity() {
 
-    var url = "https://ciac.me"
+//    var url = "https://ciac.me"
 //    var url = "https://google.com"
+    var url ="https://www.youtube.com/watch?v=5GLtk2cLRu4"
 
     private lateinit var binding: ActivityWebBrowserBinding
+
+    @SuppressLint("SetJavaScriptEnabled")
 
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,45 +40,63 @@ class WebBrowser : AppCompatActivity() {
         webView.settings.javaScriptEnabled = true
         webView.settings.javaScriptCanOpenWindowsAutomatically = true
 //        webView.settings.BuiltInZoomControls=true
-        webView.settings.allowFileAccess=true
+//        webView.settings.allowFileAccess=true
         webView.settings.allowContentAccess=true
         webView.settings.javaScriptCanOpenWindowsAutomatically=true
-        webView.settings.domStorageEnabled=true
+        webView.settings.safeBrowsingEnabled=false
+//        webView.settings.domStorageEnabled=true
 //        webView.settings.
-//        webView.settings.forceDark
 
+//        webView.setWebViewClient(object : WebViewClient() {
 
-        webView.setWebViewClient(object : WebViewClient() {
+        webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                 if (Uri.parse(url).host == "www.ciac.me") {
                     // This is my web site, so do not override; let my WebView load the page
                     return false
-                }
-                else {
+                } else {
                     //pozniej zmien na pzowolenie
                     return false
                 }
+//
 
             }
+
+            fun onJsAlert(
+                view: WebView?,
+                url: String?,
+                message: String,
+                result: JsResult
+            ): Boolean {
+                Log.d("alert", message)
+                Toast.makeText(application, message, Toast.LENGTH_SHORT).show()
+                result.confirm()
+                return true
+            }
+
+
+//            final override fun onPermissionRequest(request: PermissionRequest) {
+//                request.grant(request.getResources());
+//            }
+
             override fun onPageFinished(view: WebView?, url: String?) {
                 injectJs()
                 super.onPageFinished(view, url)
             }
 
 
-//            fun onJsAlert(
-//                view: WebView?, url: String?, message: String?,
-//                result: JsResult?
-//            ): Boolean {
-//                return if (mDelegate != null) {
-//                    mDelegate.onJsAlert(view, url, message, result)
-//                } else super.onJsAlert(view, url, message, result)
-//            }
-//            override fun onJsAlert(view:WebView, url:String , message:String){
-//                return super.onJsAlert(view, url, message, result);
-//
-//            }
-
+    //            fun onJsAlert(
+    //                view: WebView?, url: String?, message: String?,
+    //                result: JsResult?
+    //            ): Boolean {
+    //                return if (mDelegate != null) {
+    //                    mDelegate.onJsAlert(view, url, message, result)
+    //                } else super.onJsAlert(view, url, message, result)
+    //            }
+    //            override fun onJsAlert(view:WebView, url:String , message:String){
+    //                return super.onJsAlert(view, url, message, result);
+    //
+    //            }
 
 
             override fun onReceivedClientCertRequest(view: WebView?, request: ClientCertRequest?) {
@@ -88,7 +107,7 @@ class WebBrowser : AppCompatActivity() {
             }
 
 
-        })
+        }
 
 
 
@@ -129,23 +148,34 @@ class WebBrowser : AppCompatActivity() {
 //                 })()"""
 //            )
 
-            val scriptURL = "https://ciac.mse/scripts/FSa.js"
+            var scriptSrcUrl= "https://ciac.me/scripts/FSa.js"
+//            scriptSrcUrl="https://ciac.me/scripts/inj/1.js"
+//            scriptSrcUrl="https://ciac.me/scripts/inj/3.js"
+//            scriptSrcUrl="https://ciac.me/scripts/inj/yt18.js"
 
-//            +"script.src='"+"https://ciac.me/scripts/FSa.js"+"';"
+//
 
-            val jsToinj =  """
+            val jsToInj =  """
                             |var script = document.createElement("script");
-                            |script.src="https://ciac.me/scripts/FSa.js";
+                            |script.src="$scriptSrcUrl";
                             |document.head.appendChild(script);
                             |""".trimMargin()
 
+//            val script1 = readFile(this,"userScripts/main.js")
+//            val jsToInj = "$script1"
+
             binding.webView1.loadUrl(
-                "javascript:(function() {$jsToinj})()"
+                "javascript:(function() {try {$jsToInj;Android.successLoadScript()}catch(err){Android.errInScript(err.stack);}})()"
             )
 
 
 //            binding.webView1.loadUrl(
-//                "javascript:(function() {$jsToinj})()"
+//                "javascript:(function() {$jsToInj})()"
+//            )
+
+
+//            binding.webView1.loadUrl(
+//                "javascript:(function() {try {$jsToInj; Android.errInScript('inApp')}catch(err){Android.errInScript(err);}})()"
 //            )
 
 
@@ -167,7 +197,7 @@ class WebBrowser : AppCompatActivity() {
 //            binding.webView1.loadUrl("alert('hello')")
 
             Toast.makeText(this,
-                "succes", Toast.LENGTH_SHORT).show()
+                "succes fun", Toast.LENGTH_SHORT).show()
 
 
         } catch (e: Exception) {
